@@ -15,6 +15,12 @@ from syllabus:
 
 Each report should include (1) A description of the statistical problem to be addressed; (2) A general description of the approach taken, along with some justication for the direction taken;(3) Conclusions, along with supporting output (typically including graphics); (4) The complete code.
 
+project requirement:
+
+Your tasks: Design a simulation study to evaluate the impacts of misspecifying the baseline hazard function
+on the estimate of the treatment effect, and one could avoid this issue by using a semi-parametric Cox model.
+In the meantime, investigate the impact of fitting too complicated a model when an exponential is sufficient
+
 #step 1. generate data
 1.1 derivation of the t fomular (Ren):
 
