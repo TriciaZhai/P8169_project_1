@@ -7,8 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 set.seed(816001)
+library(coxed)
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+from syllabus: 
+
+Each report should include (1) A description of the statistical problem to be addressed; (2) A general description of the approach taken, along with some justication for the direction taken;(3) Conclusions, along with supporting output (typically including graphics); (4) The complete code.
 
 #step 1. generate data
 1.1 derivation of the t fomular (Ren):
