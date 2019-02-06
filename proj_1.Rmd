@@ -1,0 +1,56 @@
+---
+title: "P8160_project_1"
+author: "Chunxiao Zhai"
+date: "2/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#step 1. generate data
+1.1 derivation of the t fomular (Ren):
+
+n
+miu
+randome error
+
+1) decay rate miu = 1
+2) decay rate miu = 2
+3) decay rate miu = 0.5
+
+1.2 plot to confirm good randomnes
+
+plot1
+plot2
+plot2
+
+#step 2. fit different data into different model and get estimation points
+
+1) Exponential
+2) Weibull
+3) Cox
+
+bias vs variance
+plots
+
+
+### R codes for Hazard Ratio Estimation
+```{r, eval=F, echo=T}
+# Exponential
+fit.exponential <- survreg(Surv(y) ~ x[, 1] + x[, 2], dist = "exponential")
+summary(fit.exponential)
+- fit.exponential$coefficients[-1]
+
+# Weibull
+fit.weibull <- survreg(Surv(y) ~ x[, 1] + x[, 2], dist = "weibull")
+summary(fit.weibull)
+- fit.weibull$coefficients[-1] / fit.weibull$scale
+
+# Cox
+fit.cox <- coxph(Surv(y) ~ x[, 1] + x[, 2])
+summary(fit.cox)
+```
+
+
