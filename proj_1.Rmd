@@ -21,6 +21,9 @@ Your tasks: Design a simulation study to evaluate the impacts of misspecifying t
 on the estimate of the treatment effect, and one could avoid this issue by using a semi-parametric Cox model.
 In the meantime, investigate the impact of fitting too complicated a model when an exponential is sufficient
 
+published studies:
+The simulation study would include data simulated under various distributions such as exponential, Weibull, log-normal, log-logistic and with different sample sizes and effect sizes, to evaluate power, type I error rate and precision of the estimated coefficient.
+
 #step 1. generate data
 1.1 derivation of the t fomular (Ren):
 
@@ -44,12 +47,18 @@ plot2
 2) Weibull
 3) Cox
 
-bias vs variance
+test goodness of fit for different model,
+
+estimation perfomance: invaraince(sample size), accuracy(bias vs variance)
 plots/table:
 
 AIC
 CI and p-Value
 
+same simulation dataset in different models survplots,
+
+published studies:
+The simulation study would include data simulated under various distributions such as exponential, Weibull, log-normal, log-logistic and with different sample sizes and effect sizes, to evaluate power, type I error rate and precision of the estimated coefficient.
 
 
 ### R codes for Hazard Ratio Estimation
