@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-set.seed(1234)
+set.seed(816001)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
