@@ -45,7 +45,11 @@ plot2
 3) Cox
 
 bias vs variance
-plots
+plots/table:
+
+AIC
+CI and p-Value
+
 
 
 ### R codes for Hazard Ratio Estimation
