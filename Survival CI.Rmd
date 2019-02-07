@@ -93,27 +93,35 @@ sim = function(fitmodel,baseline,sim_num){
 
 
 ```{r library}
-
-library(tidyverse)
-library(gmodels)
-#Exponential
-beta_exp_100 = sim("Weibull","Exponential",100)
-hist(beta_exp_100)
-mean(beta_exp_100)
-ci(beta_exp_100,confidence = 0.95)
+# #try
+# #Exponential
+# beta_exp_100 = sim("Weibull","Exponential",100)
+# hist(beta_exp_100)
+# mean(beta_exp_100)
+# ci(beta_exp_100,confidence = 0.95)
 ```
 
 
 ```{r}
+library(gmodels)
 model_list = list("Exponential","Weibull","Cox")
 beta_hat = vector("list", length = 9)
+result = tibble()
 k =1
 for(i in 1:3){
   for(j in 1:3){
   beta_hat[[k]]= sim(model_list[[i]],model_list[[j]],100)
+  result[k,1] = model_list[[i]]
+  result[k,2] = model_list[[j]]
+  result[k,3] = ci(beta_hat[[k]])[[1]]
+  result[k,4] = ci(beta_hat[[k]])[[2]]
+  result[k,5] = ci(beta_hat[[k]])[[3]]
+  result[k,6] = ci(beta_hat[[k]])[[4]]
   k = k+1
   }
 }
+names(result)=c("base_model","fit_model","beta_Estimate","CI lower","CI upper","Std. Error")
+result
 
 ```
 
