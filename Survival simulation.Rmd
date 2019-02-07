@@ -1,0 +1,68 @@
+---
+title: "Survival simulation"
+author: "Uni:jr3755"
+date: "February 6, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(survival)
+```
+
+#Simulation function for exponential or Weibull
+```{r}
+
+# baseline hazard: Weibull
+
+# N = sample size    
+# lambda = scale parameter in h0()
+# rho = shape parameter in h0()
+# beta = fixed effect parameter
+
+simu_data <- function(N, lambda, rho, beta, baseline = "Exponential")
+{
+  # covariate --> N Bernoulli trials
+  x <- sample(x=c(0, 1), size=N, replace=TRUE, prob=c(0.5, 0.5))
+  v <- runif(n=N)
+  if (baseline == "Exponential") {
+    Tlat <- log(v)/(-exp(x * beta) * lambda)}
+  else{
+    # Weibull latent event times
+    Tlat <- (- log(v) / (lambda * exp(x * beta)))^(1 / rho)
+  }
+
+  # data set
+  data.frame(id=1:N,
+             time=Tlat,
+             x=x,
+             baseline = baseline, stringsAsFactors = FALSE, row.names = NULL)
+}
+```
+
+
+```{r}
+#Simulation 
+set.seed(1234)
+sim_num = 100 #Number of simulations
+betaHat <- rep(NA, sim_num) #Initial mean beta for each simulation
+baseline = "Exponential" #The model for generated data
+fitmodel = "Exponential" #The model to fit data
+for(k in 1:sim_num)
+{
+  dat <- simu_data(N=100, lambda=0.01, rho=1, beta=-0.6, baseline = baseline)
+  if(fitmodel == "Exponential"){
+    fit <- survreg(Surv(time) ~ x, data = dat, dist = "exponential")
+    betaHat[k] <- -fit$coefficients[-1]
+  } else if(fitmodel == "Cox"){
+    fit <- coxph(Surv(time) ~ x, data=dat)
+    betaHat[k] <- fit$coef[-1]
+  }else{
+    fit <- survreg(Surv(time) ~ x, data = dat, dist = "Weibull")
+    betaHat[k] <- -fit$coefficients[-1] / fit$scale
+  }
+}
+betaHat #The returned list of mean beta for each simulation
+```
+
