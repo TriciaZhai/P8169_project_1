@@ -57,9 +57,7 @@ CI and p-Value
 
 same simulation dataset in different models survplots,
 
-published studies:
-The simulation study would include data simulated under various distributions such as exponential, Weibull, log-normal, log-logistic and with different sample sizes and effect sizes, to evaluate power, type I error rate and precision of the estimated coefficient.
-
+Effect of frailty
 
 ### R codes for Hazard Ratio Estimation
 ```{r, eval=F, echo=T}
