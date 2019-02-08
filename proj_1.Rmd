@@ -1,18 +1,20 @@
 ---
-title: "Project 1: A Simulation Study to Compare Three Survival Models"
-author: "Group 2, UNI: jr3755, cz2544, xw2598"
+title: 'Project 1: A Simulation Study to Compare Three Survival Models'
+author: 'Group 2, UNI: jr3755, cz2544, xw2598'
 date: "February 6, 2019"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(coxed)
-require(survival)
-require(quantreg)
-require(glmnet)
-require(MASS)
-require(pROC)
+library(survival)
+library(quantreg)
+library(glmnet)
+library(MASS)
+library(pROC)
 set.seed(8160201902)
 ```
 
@@ -31,13 +33,68 @@ The simulation study would include data simulated under various distributions su
 
 
 ========================
+Start here:
 
-Objectives
-Statistical methods to be studied
-Scenarios to be investigated
-Methods for generating data
-performance measures
-simulation results.
+
+**1. Objectives:**
+1.1 Design a simulation study to evaluate the impacts of misspecifying the baseline hazard function
+on the estimate of the treatment effect, and one could avoid this issue by using a semi-parametric Cox model.
+
+\begin{table}[ht]
+\caption{impacts of misspecifying the baseline hazard function}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+baseline hazard function & fit model & estimator \\[1mm]\hline
+
+\text  exponential proportional-hazards baseline & exponential proportional-hazards model\\[2mm]
+\text     &Weibull proportional-hazards model \\[2mm]
+\text     &Cox proportional-hazards model\\[2mm]
+\text  Weibull proportional-hazards baseline  & exponential proportional-hazards model\\[2mm]
+\text     & Weibull proportional-hazards model\\[2mm]
+\textbf   & Cox proportional-hazards model \\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}
+
+1.2 Investigate the impact of fitting too complicated a model when an exponential is sufficient
+begin{table}[ht]
+\caption{impact of fitting a too complicated model}
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+baseline hazard function & fit model & estimator & power & bias \\[1mm]\hline
+
+\text  exponential proportional-hazards baseline & exponential proportional-hazards model &  & \\[2mm]
+\text     &Weibull proportional-hazards model &  & \\[2mm]
+\text     &Cox proportional-hazards model &  & \\[2mm]
+\text  Weibull proportional-hazards baseline  & exponential proportional-hazards model &  & \\[2mm]
+\text     & Weibull proportional-hazards model &   & \\[2mm]
+\textbf   & Cox proportional-hazards model &   & \\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}
+
+**2. Statistical methods to be studied:**( Methods for generating the datasets)
+3 Proportional hazards models: An exponential proportional-hazards model,A Weibull proportional-hazards model, A Cox proportional-hazards model.
+
+
+**3. Scenarios to be investigated:**
+
+**4. Methods for generating data:**
+
+**5. Performance measures:**
+
+**6. Simulation results:**
+
+**7. Conclusions:**
+
+**8. Discussions:**
+
 #step 1. generate data
 1.1 derivation of the t fomular (Ren):
 
