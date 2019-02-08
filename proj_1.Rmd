@@ -1,14 +1,19 @@
 ---
-title: "P8160_project_1"
-author: "Chunxiao Zhai"
-date: "2/6/2019"
-output: html_document
+title: "Project 1: A Simulation Study to Compare Three Survival Models"
+author: "Group 2, UNI: jr3755, cz2544, xw2598"
+date: "February 6, 2019"
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-set.seed(816001)
-library(coxed)
 knitr::opts_chunk$set(echo = TRUE)
+library(coxed)
+require(survival)
+require(quantreg)
+require(glmnet)
+require(MASS)
+require(pROC)
+set.seed(8160201902)
 ```
 
 from syllabus: 
@@ -24,6 +29,15 @@ In the meantime, investigate the impact of fitting too complicated a model when 
 published studies:
 The simulation study would include data simulated under various distributions such as exponential, Weibull, log-normal, log-logistic and with different sample sizes and effect sizes, to evaluate power, type I error rate and precision of the estimated coefficient.
 
+
+========================
+
+Objectives
+Statistical methods to be studied
+Scenarios to be investigated
+Methods for generating data
+performance measures
+simulation results.
 #step 1. generate data
 1.1 derivation of the t fomular (Ren):
 
