@@ -33,7 +33,7 @@ The simulation study would include data simulated under various distributions su
 
 
 ========================
-Start here:
+#Start here:
 
 
 **1. Objectives:**
@@ -79,21 +79,47 @@ baseline hazard function & fit model & estimator & power & bias \\[1mm]\hline
 \label{default}
 \end{table}
 
-**2. Statistical methods to be studied:**( Methods for generating the datasets)
+**2. Statistical methods to be studied:**
 3 Proportional hazards models: An exponential proportional-hazards model,A Weibull proportional-hazards model, A Cox proportional-hazards model.
 
 
 **3. Scenarios to be investigated:**
 
 **4. Methods for generating data:**
+(. Simulation procedures
+a. Level of dependence between simulated datasets
+b. Allowance for failures
+c . Software to perform simulations
+d. Random number generator to use 
+e . Specification of the starting seeds)
+
+4.1 The relationship between the generated samples:
+4.2 The rationale for any choices made regarding the distributions of the data,
+parameters of any statistical models and the covariate correlation structure used to generate the
+data set should accompany their specifications. The generated data should be verified to ensure
+they resemble what is being simulated, for example using summary measures for the covariate
+distributions, Kaplan–Meier survival curves for survival data or fitting appropriate regression
+models.
 
 **5. Performance measures:**
 
-**6. Simulation results:**
+**6. Simulation results:**(Estimates to be stored for each simulation and summary
+ measures to be calculated over all simulations )
 
 **7. Conclusions:**
+(Number of simulations to be performed, Criteria to evaluate the performance of statistical methods for different
+ scenarios
+a. Assessment of bias
+b. Assessment of accuracy
+c . Assessment of coverage  )
 
-**8. Discussions:**
+**8. Presentation of the simulation results **
+
+**9. Discussions:**
+
+**10. References**
+
+
 
 #step 1. generate data
 1.1 derivation of the t fomular (Ren):
