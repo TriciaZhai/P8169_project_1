@@ -108,29 +108,51 @@ model_list = list("Exponential","Weibull","Cox")
 beta_hat = vector("list", length = 9)
 result = tibble()
 k =1
+size = c(100,500,1000)
+for(t in 1:3){
+  n = size[t]
 for(i in 1:2){
   for(j in 1:3){
-  beta_hat[[k]]= sim(model_list[[i]],model_list[[j]],100)
+  beta_hat[[k]]= sim(model_list[[i]],model_list[[j]],n)
   result[k,1] = model_list[[i]]
   result[k,2] = model_list[[j]]
   result[k,3] = ci(beta_hat[[k]])[[1]]
   result[k,4] = ci(beta_hat[[k]])[[2]]
   result[k,5] = ci(beta_hat[[k]])[[3]]
   result[k,6] = ci(beta_hat[[k]])[[4]]
-  result[k,7] = sum(beta_hat[[k]])/100+0.6
+  result[k,7] = sum(beta_hat[[k]])/n+0.6
+  result[k,8] = n
   k = k+1
   }
 }
-names(result)=c("base_model","fit_model","beta_Estimate","CI_lower","CI_upper","Std_Error","Bias")
+}
+
+names(result)=c("base_model","fit_model","beta_Estimate","CI_lower","CI_upper","Std_Error","Bias","Sample_size")
+result$Sample_size = as.numeric(result$Sample_size)
 result
 
 ```
 
 ```{r plot_estimate}
 
-ggplot(result,aes(x = base_model,y = beta_Estimate,color = fit_model))+geom_point()+geom_errorbar(aes(ymin=CI_lower,ymax = CI_upper))
+#ggplot(result,aes(x = base_model,y = beta_Estimate,color = fit_model))+geom_point()+geom_errorbar(aes(ymin=CI_lower,ymax = CI_upper))
+
+#Bias Plot
+#base_model = Exponential
+filter(result,base_model == "Exponential") %>% 
+ggplot(aes(x = Sample_size, y = as.numeric(Bias), color = fit_model))+
+  geom_point()+
+  geom_smooth()+
+  labs(title = "Exponential as basemodel")
+
+filter(result,base_model == "Weibull") %>% 
+ggplot(aes(x = Sample_size, y = as.numeric(Bias), color = fit_model))+
+  geom_point()+
+  geom_smooth()+
+ labs(title = "Weibull as basemodel")
 
 ```
+
 
 
 
