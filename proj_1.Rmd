@@ -90,6 +90,8 @@ In current literature of simulation studies, numnber of simulation ranged from 1
 
 Proportion of censoring is not cosidered in this project.
 
+
+# Methods:
 **4. Methods for generating data:**
 (. Simulation procedures
 a. Level of dependence between simulated datasets
@@ -201,6 +203,9 @@ betaHat #The returned list of mean beta for each simulation
 5.1  Assessment of bias
 5.2  Assessment of accuracy
 5.3  Assessment of coverage
+
+
+# Results
 
 **6. Simulation results:**(Estimates to be stored for each simulation and summary
  measures to be calculated over all simulations )
