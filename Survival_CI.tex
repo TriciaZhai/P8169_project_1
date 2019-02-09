@@ -1,0 +1,2098 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Survival simulation},
+            pdfauthor={Uni:jr3755},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Survival simulation}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Uni:jr3755}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{February 6, 2019}
+
+
+\begin{document}
+\maketitle
+
+\section{Simulation function for exponential or
+Weibull}\label{simulation-function-for-exponential-or-weibull}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# baseline hazard: Weibull}
+\CommentTok{# N = sample size    }
+\CommentTok{# lambda = scale parameter in h0()}
+\CommentTok{# rho = shape parameter in h0()}
+\CommentTok{# beta = fixed effect parameter}
+\NormalTok{simu_data <-}\StringTok{ }\NormalTok{function(N, lambda, rho, beta, }\DataTypeTok{baseline =} \StringTok{"Exponential"}\NormalTok{)}
+\NormalTok{\{}
+  \CommentTok{# covariate --> N Bernoulli trials}
+  \NormalTok{x <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\DataTypeTok{size=}\NormalTok{N, }\DataTypeTok{replace=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.5}\NormalTok{))}
+  \NormalTok{v <-}\StringTok{ }\KeywordTok{runif}\NormalTok{(}\DataTypeTok{n=}\NormalTok{N)}
+  \NormalTok{if (baseline ==}\StringTok{ "Exponential"}\NormalTok{) \{}
+    \NormalTok{Tlat <-}\StringTok{ }\KeywordTok{log}\NormalTok{(v)/(-}\KeywordTok{exp}\NormalTok{(x *}\StringTok{ }\NormalTok{beta) *}\StringTok{ }\NormalTok{lambda)\}}
+  \NormalTok{else\{}
+    \CommentTok{# Weibull latent event times}
+    \NormalTok{Tlat <-}\StringTok{ }\NormalTok{(-}\StringTok{ }\KeywordTok{log}\NormalTok{(v) /}\StringTok{ }\NormalTok{(lambda *}\StringTok{ }\KeywordTok{exp}\NormalTok{(x *}\StringTok{ }\NormalTok{beta)))^(}\DecValTok{1} \NormalTok{/}\StringTok{ }\NormalTok{rho)}
+  \NormalTok{\}}
+  \CommentTok{# data set}
+  \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{id=}\DecValTok{1}\NormalTok{:N,}
+             \DataTypeTok{time=}\NormalTok{Tlat,}
+             \DataTypeTok{x=}\NormalTok{x,}
+             \DataTypeTok{baseline =} \NormalTok{baseline, }\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{NULL}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# #Simulation}
+\CommentTok{# set.seed(1234)}
+\CommentTok{# sim_num = 100 #Number of simulations}
+\CommentTok{# betaHat <- rep(NA, sim_num) #Initial mean beta for each simulation}
+\CommentTok{# baseline = "Cox" #The model for generated data}
+\CommentTok{# fitmodel = "Cox" #The model to fit data}
+\CommentTok{# for(k in 1:sim_num)}
+\CommentTok{# \{}
+\CommentTok{#   dat <- simu_data(N=100, lambda=0.01, rho=1, beta=-0.6, baseline = baseline)}
+\CommentTok{#   if(fitmodel == "Exponential")\{}
+\CommentTok{#     fit <- survreg(Surv(time) ~ x, data = dat, dist = "exponential")}
+\CommentTok{#     betaHat[k] <- -fit$coefficients[-1]}
+\CommentTok{#   \} else if(fitmodel == "Cox")\{}
+\CommentTok{#     fit <- coxph(Surv(time) ~ x, data=dat)}
+\CommentTok{#     betaHat[k] <- fit$coefficients[-1]}
+\CommentTok{#   \}else\{}
+\CommentTok{#     fit <- survreg(Surv(time) ~ x, data = dat, dist = "weibull")}
+\CommentTok{#     betaHat[k] <- -fit$coefficients[-1] / fit$scale}
+\CommentTok{#   \}}
+\CommentTok{# \}}
+\CommentTok{# betaHat #The returned list of mean beta for each simulation}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Xinyao Wu}\label{xinyao-wu}
+
+\section{merge Simulation into a
+function}\label{merge-simulation-into-a-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{sim =}\StringTok{ }\NormalTok{function(fitmodel,baseline,sim_num, }\DataTypeTok{beta=}\NormalTok{-}\FloatTok{0.6}\NormalTok{, }\DataTypeTok{N=}\DecValTok{100}\NormalTok{, }\DataTypeTok{lambda=}\FloatTok{0.01}\NormalTok{, }\DataTypeTok{rho=}\DecValTok{1}\NormalTok{)\{}
+  \NormalTok{num =}\StringTok{ }\NormalTok{sim_num}
+  \NormalTok{betaHat =}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, num) }
+  \NormalTok{coverage =}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, num) }\CommentTok{#The vector for determining whether the CI cover true value of estimate}
+  \NormalTok{CI_length =}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, num)}\CommentTok{#The vector for the length of the CI}
+  \NormalTok{for(k in }\DecValTok{1}\NormalTok{:sim_num)}
+\NormalTok{\{}
+  \NormalTok{dat <-}\StringTok{ }\KeywordTok{simu_data}\NormalTok{(}\DataTypeTok{N=}\NormalTok{N, }\DataTypeTok{lambda=}\NormalTok{lambda, }\DataTypeTok{rho=}\NormalTok{rho, }\DataTypeTok{beta=}\NormalTok{beta, }\DataTypeTok{baseline =} \NormalTok{baseline)}
+  \NormalTok{if(fitmodel ==}\StringTok{ "Exponential"}\NormalTok{)\{}
+    \NormalTok{fit <-}\StringTok{ }\KeywordTok{survreg}\NormalTok{(}\KeywordTok{Surv}\NormalTok{(time) ~}\StringTok{ }\NormalTok{x, }\DataTypeTok{data =} \NormalTok{dat, }\DataTypeTok{dist =} \StringTok{"exponential"}\NormalTok{)}
+    \NormalTok{betaHat[k] <-}\StringTok{ }\NormalTok{-fit$coefficients[-}\DecValTok{1}\NormalTok{]}
+    \NormalTok{coverage[k] <-}\StringTok{ }\NormalTok{(-}\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{4}\NormalTok{] <=}\StringTok{ }\NormalTok{beta) &}\StringTok{ }\NormalTok{(-}\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{2}\NormalTok{] >=}\StringTok{ }\NormalTok{beta)}
+    \NormalTok{CI_length[k] <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{4}\NormalTok{] -}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{2}\NormalTok{]}
+  \NormalTok{\} else if(fitmodel ==}\StringTok{ "Cox"}\NormalTok{)\{}
+    \NormalTok{fit <-}\StringTok{ }\KeywordTok{coxph}\NormalTok{(}\KeywordTok{Surv}\NormalTok{(time) ~}\StringTok{ }\NormalTok{x, }\DataTypeTok{data=}\NormalTok{dat)}
+    \NormalTok{betaHat[k] <-}\StringTok{ }\NormalTok{fit$coefficients[}\DecValTok{1}\NormalTok{]}
+    \NormalTok{coverage[k] <-}\StringTok{ }\NormalTok{(}\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{1}\NormalTok{] <=}\StringTok{ }\NormalTok{beta &}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{2}\NormalTok{] >=}\StringTok{ }\NormalTok{beta)}
+    \NormalTok{CI_length[k] <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{2}\NormalTok{] -}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{1}\NormalTok{]}
+  \NormalTok{\}else\{}
+    \NormalTok{fit <-}\StringTok{ }\KeywordTok{survreg}\NormalTok{(}\KeywordTok{Surv}\NormalTok{(time) ~}\StringTok{ }\NormalTok{x, }\DataTypeTok{data =} \NormalTok{dat, }\DataTypeTok{dist =} \StringTok{"weibull"}\NormalTok{)}
+    \NormalTok{betaHat[k] <-}\StringTok{ }\NormalTok{-fit$coefficients[-}\DecValTok{1}\NormalTok{] /}\StringTok{ }\NormalTok{fit$scale}
+    \NormalTok{coverage[k] <-}\StringTok{ }\NormalTok{(-}\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{4}\NormalTok{] <=}\StringTok{ }\NormalTok{beta &}\StringTok{ }\NormalTok{-}\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{2}\NormalTok{] >=}\StringTok{ }\NormalTok{beta)}
+    \NormalTok{CI_length[k] <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{4}\NormalTok{] -}\StringTok{ }\KeywordTok{confint}\NormalTok{(fit)[}\DecValTok{2}\NormalTok{]}
+  \NormalTok{\}}
+  \NormalTok{\}}
+   \KeywordTok{list}\NormalTok{(betaHat,coverage,CI_length)}
+  \NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(gmodels)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'gmodels' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model_list =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Exponential"}\NormalTok{,}\StringTok{"Weibull"}\NormalTok{,}\StringTok{"Cox"}\NormalTok{)}
+\NormalTok{beta_hat =}\StringTok{ }\KeywordTok{vector}\NormalTok{(}\StringTok{"list"}\NormalTok{, }\DataTypeTok{length =} \DecValTok{9}\NormalTok{)}
+\NormalTok{result =}\StringTok{ }\KeywordTok{tibble}\NormalTok{()}
+\NormalTok{k =}\DecValTok{1}
+\NormalTok{size =}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{500}\NormalTok{,}\DecValTok{1000}\NormalTok{)}
+\NormalTok{for(t in }\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{)\{}
+  \NormalTok{n =}\StringTok{ }\NormalTok{size[t]}
+\NormalTok{for(i in }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{)\{}
+  \NormalTok{for(j in }\DecValTok{1}\NormalTok{:}\DecValTok{3}\NormalTok{)\{}
+  \NormalTok{sim_result =}\StringTok{ }\KeywordTok{sim}\NormalTok{(model_list[[i]],model_list[[j]],n)}
+  \NormalTok{beta_hat[[k]] =}\StringTok{ }\NormalTok{sim_result[[}\DecValTok{1}\NormalTok{]]}
+  \NormalTok{result[k,}\DecValTok{1}\NormalTok{] =}\StringTok{ }\NormalTok{model_list[[i]]}
+  \NormalTok{result[k,}\DecValTok{2}\NormalTok{] =}\StringTok{ }\NormalTok{model_list[[j]]}
+  \NormalTok{result[k,}\DecValTok{3}\NormalTok{] =}\StringTok{ }\KeywordTok{ci}\NormalTok{(beta_hat[[k]])[[}\DecValTok{1}\NormalTok{]]}
+  \NormalTok{result[k,}\DecValTok{4}\NormalTok{] =}\StringTok{ }\KeywordTok{ci}\NormalTok{(beta_hat[[k]])[[}\DecValTok{2}\NormalTok{]]}
+  \NormalTok{result[k,}\DecValTok{5}\NormalTok{] =}\StringTok{ }\KeywordTok{ci}\NormalTok{(beta_hat[[k]])[[}\DecValTok{3}\NormalTok{]]}
+  \NormalTok{result[k,}\DecValTok{6}\NormalTok{] =}\StringTok{ }\KeywordTok{ci}\NormalTok{(beta_hat[[k]])[[}\DecValTok{4}\NormalTok{]]}
+  \NormalTok{result[k,}\DecValTok{7}\NormalTok{] =}\StringTok{ }\KeywordTok{sum}\NormalTok{(beta_hat[[k]])/n}\FloatTok{+0.6}
+  \NormalTok{result[k,}\DecValTok{8}\NormalTok{] =}\StringTok{ }\KeywordTok{mean}\NormalTok{(sim_result[[}\DecValTok{2}\NormalTok{]])}
+  \NormalTok{result[k,}\DecValTok{9}\NormalTok{] =}\StringTok{ }\KeywordTok{mean}\NormalTok{(sim_result[[}\DecValTok{3}\NormalTok{]])}
+  \NormalTok{result[k,}\DecValTok{10}\NormalTok{] =}\StringTok{ }\NormalTok{n}
+  \NormalTok{k =}\StringTok{ }\NormalTok{k}\DecValTok{+1}
+  \NormalTok{\}}
+\NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+
+## Warning in ci.numeric(beta_hat[[k]]): No class or unkown class. Using
+## default calcuation.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(result)=}\KeywordTok{c}\NormalTok{(}\StringTok{"base_model"}\NormalTok{,}\StringTok{"fit_model"}\NormalTok{,}\StringTok{"beta_Estimate"}\NormalTok{,}\StringTok{"CI_lower"}\NormalTok{,}\StringTok{"CI_upper"}\NormalTok{,}\StringTok{"Std_Error"}\NormalTok{,}\StringTok{"Bias"}\NormalTok{,}\StringTok{"coverage"}\NormalTok{,}\StringTok{"average_confidence_interval_length"}\NormalTok{,}\StringTok{"Sample_size"}\NormalTok{)}
+\NormalTok{result$Mse =}\StringTok{ }\NormalTok{(result$beta_Estimate}\FloatTok{+0.6}\NormalTok{)^}\DecValTok{2}\NormalTok{+(result$Std_Error)^}\DecValTok{2}
+\NormalTok{result$Sample_size =}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(result$Sample_size)}
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 18 x 11
+##    base_model fit_model beta_Estimate CI_lower CI_upper Std_Error     Bias
+##  * <chr>      <chr>             <dbl>    <dbl>    <dbl>     <dbl>    <dbl>
+##  1 Exponenti~ Exponent~        -0.602   -0.708   -0.496    0.0507 -0.00185
+##  2 Exponenti~ Weibull          -0.554   -0.643   -0.465    0.0425  0.0458 
+##  3 Exponenti~ Cox              -0.609   -0.696   -0.521    0.0418 -0.00860
+##  4 Weibull    Exponent~        -0.515   -0.618   -0.411    0.0496  0.0853 
+##  5 Weibull    Weibull          -0.625   -0.728   -0.521    0.0493 -0.0246 
+##  6 Weibull    Cox              -0.544   -0.642   -0.447    0.0466  0.0558 
+##  7 Exponenti~ Exponent~        -0.613   -0.668   -0.558    0.0273 -0.0133 
+##  8 Exponenti~ Weibull          -0.589   -0.648   -0.530    0.0294  0.0110 
+##  9 Exponenti~ Cox              -0.628   -0.684   -0.572    0.0278 -0.0278 
+## 10 Weibull    Exponent~        -0.562   -0.628   -0.496    0.0328  0.0376 
+## 11 Weibull    Weibull          -0.650   -0.711   -0.588    0.0306 -0.0499 
+## 12 Weibull    Cox              -0.597   -0.668   -0.526    0.0353  0.00274
+## 13 Exponenti~ Exponent~        -0.629   -0.671   -0.587    0.0210 -0.0289 
+## 14 Exponenti~ Weibull          -0.594   -0.632   -0.557    0.0190  0.00578
+## 15 Exponenti~ Cox              -0.607   -0.651   -0.563    0.0222 -0.00717
+## 16 Weibull    Exponent~        -0.607   -0.646   -0.569    0.0194 -0.00744
+## 17 Weibull    Weibull          -0.655   -0.698   -0.612    0.0217 -0.0552 
+## 18 Weibull    Cox              -0.617   -0.659   -0.574    0.0214 -0.0170 
+## # ... with 4 more variables: coverage <dbl>,
+## #   average_confidence_interval_length <dbl>, Sample_size <dbl>, Mse <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Bias Plot}
+\CommentTok{#base_model = Exponential}
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Exponential"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(Bias), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Bias plot: Exponential as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'bindrcpp' was built under R version 3.4.4
+\end{verbatim}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/plot-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Weibull"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(Bias), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Bias plot: Weibull as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/plot-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#MSE Plot}
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Exponential"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(Mse), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Mes Plot: Exponential as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Weibull"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(Mse), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Mse Plot :Weibull as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Coverage Plot}
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Exponential"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(coverage), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Coverage Plot: Exponential as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Weibull"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(coverage), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Coverage Plot :Weibull as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Average_confidence_interval_length plot}
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Exponential"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(average_confidence_interval_length), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Average_confidence_interval_length: Exponential as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{filter}\NormalTok{(result,base_model ==}\StringTok{ "Weibull"}\NormalTok{) %>%}\StringTok{ }
+\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =} \NormalTok{Sample_size, }\DataTypeTok{y =} \KeywordTok{as.numeric}\NormalTok{(average_confidence_interval_length), }\DataTypeTok{color =} \NormalTok{fit_model))+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{()+}
+\StringTok{  }\KeywordTok{geom_smooth}\NormalTok{()+}
+\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Average_confidence_interval_length Plot :Weibull as basemodel"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using method = 'loess'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : span too small. fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : pseudoinverse used at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : neighborhood radius 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : reciprocal condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in simpleLoess(y, x, w, span, degree = degree, parametric =
+## parametric, : There are other near singularities as well. 2540.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : span too small.
+## fewer data values than degrees of freedom.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used
+## at 19.6
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius
+## 30.4
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : reciprocal
+## condition number 0
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predLoess(object$y, object$x, newx = if
+## (is.null(newdata)) object$x else if (is.data.frame(newdata))
+## as.matrix(model.frame(delete.response(terms(object)), : There are other
+## near singularities as well. 2540.2
+\end{verbatim}
+
+\includegraphics{Survival_CI_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+
+\end{document}
