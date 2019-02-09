@@ -164,7 +164,45 @@ ggplot(aes(x = Sample_size, y = as.numeric(Mse), color = fit_model))+
  labs(title = "Mse Plot :Weibull as basemodel")
 ```
 
+```{r}
+#Coverage Plot
+filter(result,base_model == "Exponential") %>% 
+ggplot(aes(x = Sample_size, y = as.numeric(coverage), color = fit_model))+
+  geom_point()+
+  geom_smooth()+
+  labs(title = "Coverage Plot: Exponential as basemodel")
 
+filter(result,base_model == "Weibull") %>% 
+ggplot(aes(x = Sample_size, y = as.numeric(coverage), color = fit_model))+
+  geom_point()+
+  geom_smooth()+
+ labs(title = "Coverage Plot :Weibull as basemodel")
+
+
+
+
+
+```
+
+
+```{r}
+#Average_confidence_interval_length plot
+filter(result,base_model == "Exponential") %>% 
+ggplot(aes(x = Sample_size, y = as.numeric(average_confidence_interval_length), color = fit_model))+
+  geom_point()+
+  geom_smooth()+
+  labs(title = "Average_confidence_interval_length: Exponential as basemodel")
+
+filter(result,base_model == "Weibull") %>% 
+ggplot(aes(x = Sample_size, y = as.numeric(average_confidence_interval_length), color = fit_model))+
+  geom_point()+
+  geom_smooth()+
+ labs(title = "Average_confidence_interval_length Plot :Weibull as basemodel")
+
+
+
+
+```
 
 
 
