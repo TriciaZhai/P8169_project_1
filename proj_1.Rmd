@@ -111,14 +111,12 @@ Assessment of bias
 Assessment of accuracy
 Assessment of coverage
 
-
 **6. Simulation results:**(Estimates to be stored for each simulation and summary
  measures to be calculated over all simulations )
  6.1 distribution of simulated data
  6.2 survival plot of simulated data in different model
  6.3 measurement results from different model (estimates, bias, accuracy, power, alpha, beta)
  
-
 **7. Conclusions:**
 (Number of simulations to be performed, Criteria to evaluate the performance of statistical methods for different
  scenarios
