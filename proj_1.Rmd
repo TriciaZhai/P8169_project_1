@@ -84,6 +84,8 @@ baseline hazard function & fit model & estimator & power & bias \\[1mm]\hline
 
 
 **3. Scenarios to be investigated:**
+Simulation studies usually examine the properties of one or more statistical methods in several
+scenarios defined by values of various factors such as sample size and proportion of censoring.
 
 **4. Methods for generating data:**
 (. Simulation procedures
@@ -116,9 +118,10 @@ c . Assessment of coverage  )
 **8. Presentation of the simulation results **
 
 **9. Discussions:**
+censoring
 
 **10. References**
-
+1. Statist. Med. 2006; 25:4279–4292, A. BURTON ET AL. DOI: 10.1002/sim.2673
 
 
 #step 1. generate data
