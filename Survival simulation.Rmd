@@ -1,6 +1,6 @@
 ---
-title: "Survival simulation"
-author: "Uni:jr3755"
+title: "Project 1: A Simulation Study to Compare Three Survival Models"
+author: "Group 2, UNI: jr3755, cz2544, xw2598"
 date: "February 6, 2019"
 output: pdf_document
 ---
@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(survival)
 ```
-<<<<<<< HEAD
 #Derivation for the quantile function for exponential or Weibull proportional-hazards model
 
 ##The hazard function 
@@ -43,8 +42,7 @@ $$exp(-exp(x_i\theta)\lambda t^\gamma)=1-U\\
 \Rightarrow -exp(x_i\theta)\lambda t^\gamma=log(1-U)\\
 \Rightarrow=\sqrt[\gamma] {\frac{log(U)}{-exp(x_i\theta)\lambda}}
 $$
-=======
->>>>>>> c472a7ece99bb325e0dbc4861adeb57b582bb08b
+
 
 #Simulation function for exponential or Weibull
 ```{r}
@@ -99,9 +97,12 @@ for(k in 1:sim_num)
   }
 }
 betaHat #The returned list of mean beta for each simulation
-<<<<<<< HEAD
-```
-=======
 ```
 
->>>>>>> c472a7ece99bb325e0dbc4861adeb57b582bb08b
+#survival plots
+```{r survival plots fitting different data into three kinsds of models}
+
+plot(fit)
+
+```
+

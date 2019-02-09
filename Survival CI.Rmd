@@ -108,64 +108,52 @@ model_list = list("Exponential","Weibull","Cox")
 beta_hat = vector("list", length = 9)
 result = tibble()
 k =1
-size = c(20,50,100,500,1000)
-for(t in 1:3){
-  n = size[t]
-for(i in 1:2){
+for(i in 1:3){
   for(j in 1:3){
-  beta_hat[[k]]= sim(model_list[[i]],model_list[[j]],n)
+  beta_hat[[k]]= sim(model_list[[i]],model_list[[j]],100)
   result[k,1] = model_list[[i]]
   result[k,2] = model_list[[j]]
   result[k,3] = ci(beta_hat[[k]])[[1]]
   result[k,4] = ci(beta_hat[[k]])[[2]]
   result[k,5] = ci(beta_hat[[k]])[[3]]
   result[k,6] = ci(beta_hat[[k]])[[4]]
-  result[k,7] = sum(beta_hat[[k]])/n+0.6
-  result[k,8] = n
   k = k+1
   }
 }
-}
-
-names(result)=c("base_model","fit_model","beta_Estimate","CI_lower","CI_upper","Std_Error","Bias","Sample_size")
-result$Mse = (result$beta_Estimate+0.6)^2+(result$Std_Error)^2
-result$Sample_size = as.numeric(result$Sample_size)
+names(result)=c("base_model","fit_model","beta_Estimate","CI lower","CI upper","Std. Error")
 result
 
 ```
 
-```{r plot}
-#Bias Plot
-#base_model = Exponential
-filter(result,base_model == "Exponential") %>% 
-ggplot(aes(x = Sample_size, y = as.numeric(Bias), color = fit_model))+
-  geom_point()+
-  geom_smooth()+
-  labs(title = "Exponential as basemodel")
 
-filter(result,base_model == "Weibull") %>% 
-ggplot(aes(x = Sample_size, y = as.numeric(Bias), color = fit_model))+
-  geom_point()+
-  geom_smooth()+
- labs(title = "Weibull as basemodel")
+#survival plots
 
-```
+```{r survival plots fitting different data into three kinsds of models}
+library(survminer)
+library(survival)
+fit <- survfit(Surv(times, patient.vital_status) ~ admin.disease_code,
+               data = simu_data)
+# Visualize with survminer
+ggsurvplot(fit, data = BRCAOV.survInfo, risk.table = TRUE)
 
 
-```{r}
-#MSE Plot
 
-filter(result,base_model == "Exponential") %>% 
-ggplot(aes(x = Sample_size, y = as.numeric(Mse), color = fit_model))+
-  geom_point()+
-  geom_smooth()+
-  labs(title = "Exponential as basemodel")
+ggsurvplot(
+   fit,                     # survfit object with calculated statistics.
+   data = simu_data,        # data used to fit survival curves. 
+   risk.table = TRUE,       # show risk table.
+   pval = TRUE,             # show p-value of log-rank test.
+   conf.int = TRUE,         # show confidence intervals for 
+                            # point estimaes of survival curves.
+   xlim = c(0,2000),        # present narrower X axis, but not affect
+                            # survival estimates.
+   break.time.by = 500,     # break X axis in time intervals by 500.
+   ggtheme = theme_minimal(), # customize plot and risk table with a theme.
+ risk.table.y.text.col = T, # colour risk table text annotations.
+  risk.table.y.text = FALSE # show bars instead of names in text annotations
+                            # in legend of risk table
+)
 
-filter(result,base_model == "Weibull") %>% 
-ggplot(aes(x = Sample_size, y = as.numeric(Mse), color = fit_model))+
-  geom_point()+
-  geom_smooth()+
- labs(title = "Weibull as basemodel")
 
 ```
 
