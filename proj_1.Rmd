@@ -33,8 +33,10 @@ The simulation study would include data simulated under various distributions su
 
 
 ========================
-#Start here:
 
+
+# Introduction:
+The survival analysis is one of the most commomly used methods in clinical study today, while cox model is the most used model among the family of survival models for it is the most general model and require no pre-assumption in baseline hazard function. How ever, the accuracy of information provided by survival analysis have aloways been under debate. Except for the cencoring of data, and internal variance of different clinical settings, the trade-off between power and accuracy in survival model selection has always been the main focus in study design.
 
 **1. Objectives:**
 1.1 Design a simulation study to evaluate the impacts of misspecifying the baseline hazard function
@@ -84,8 +86,9 @@ baseline hazard function & fit model & estimator & power & bias \\[1mm]\hline
 
 
 **3. Scenarios to be investigated:**
-Simulation studies usually examine the properties of one or more statistical methods in several
-scenarios defined by values of various factors such as sample size and proportion of censoring.
+In current literature of simulation studies, numnber of simulation ranged from 100 to 1000. However, reports using realworld data studying baseline hazard mismatch found that small sample size resulted in larger bias, thus we decided to range our simulation from 20 to 1000 to demonstrate the influnce of sample size in estimation of different survival model.
+
+Proportion of censoring is not cosidered in this project.
 
 **4. Methods for generating data:**
 (. Simulation procedures
@@ -106,9 +109,7 @@ models.
 **5. Performance measures:**
 Assessment of bias
 Assessment of accuracy
-Power, type I and II errors
 Assessment of coverage
-
 
 **6. Simulation results:**(Estimates to be stored for each simulation and summary
  measures to be calculated over all simulations )
@@ -116,7 +117,6 @@ Assessment of coverage
  6.2 survival plot of simulated data in different model
  6.3 measurement results from different model (estimates, bias, accuracy, power, alpha, beta)
  
-
 **7. Conclusions:**
 (Number of simulations to be performed, Criteria to evaluate the performance of statistical methods for different
  scenarios
