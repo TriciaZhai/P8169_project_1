@@ -84,6 +84,8 @@ baseline hazard function & fit model & estimator & power & bias \\[1mm]\hline
 
 
 **3. Scenarios to be investigated:**
+Simulation studies usually examine the properties of one or more statistical methods in several
+scenarios defined by values of various factors such as sample size and proportion of censoring.
 
 **4. Methods for generating data:**
 (. Simulation procedures
@@ -102,23 +104,31 @@ distributions, Kaplan–Meier survival curves for survival data or fitting appro
 models.
 
 **5. Performance measures:**
+Assessment of bias
+Assessment of accuracy
+Power, type I and II errors
+Assessment of coverage
+
 
 **6. Simulation results:**(Estimates to be stored for each simulation and summary
  measures to be calculated over all simulations )
+ 6.1 distribution of simulated data
+ 6.2 survival plot of simulated data in different model
+ 6.3 measurement results from different model (estimates, bias, accuracy, power, alpha, beta)
+ 
 
 **7. Conclusions:**
 (Number of simulations to be performed, Criteria to evaluate the performance of statistical methods for different
  scenarios
-a. Assessment of bias
-b. Assessment of accuracy
-c . Assessment of coverage  )
+)
 
 **8. Presentation of the simulation results **
 
 **9. Discussions:**
+censoring
 
 **10. References**
-
+1. Statist. Med. 2006; 25:4279–4292, A. BURTON ET AL. DOI: 10.1002/sim.2673
 
 
 #step 1. generate data
