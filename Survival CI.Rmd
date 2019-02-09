@@ -15,12 +15,10 @@ library(survival)
 ```{r}
 
 # baseline hazard: Weibull
-
 # N = sample size    
 # lambda = scale parameter in h0()
 # rho = shape parameter in h0()
 # beta = fixed effect parameter
-
 simu_data <- function(N, lambda, rho, beta, baseline = "Exponential")
 {
   # covariate --> N Bernoulli trials
@@ -32,7 +30,6 @@ simu_data <- function(N, lambda, rho, beta, baseline = "Exponential")
     # Weibull latent event times
     Tlat <- (- log(v) / (lambda * exp(x * beta)))^(1 / rho)
   }
-
   # data set
   data.frame(id=1:N,
              time=Tlat,
@@ -67,38 +64,36 @@ simu_data <- function(N, lambda, rho, beta, baseline = "Exponential")
 ```
 
 # Xinyao Wu 
-#merge Simulation into a function
+# merge Simulation into a function
 ```{r}
 set.seed(1234)
-sim = function(fitmodel,baseline,sim_num){
+sim = function(fitmodel,baseline,sim_num, beta=-0.6, N=100, lambda=0.01, rho=1){
   num = sim_num
   betaHat = rep(NA, num) 
+  coverage = rep(NA, num) #The vector for determining whether the CI cover true value of estimate
+  CI_length = rep(NA, num)#The vector for the length of the CI
   for(k in 1:sim_num)
 {
-  dat <- simu_data(N=100, lambda=0.01, rho=1, beta=-0.6, baseline = baseline)
+  dat <- simu_data(N=N, lambda=lambda, rho=rho, beta=beta, baseline = baseline)
   if(fitmodel == "Exponential"){
     fit <- survreg(Surv(time) ~ x, data = dat, dist = "exponential")
     betaHat[k] <- -fit$coefficients[-1]
+    coverage[k] <- (-confint(fit)[4] <= beta) & (-confint(fit)[2] >= beta)
+    CI_length[k] <- confint(fit)[4] - confint(fit)[2]
   } else if(fitmodel == "Cox"){
     fit <- coxph(Surv(time) ~ x, data=dat)
     betaHat[k] <- fit$coefficients[1]
+    coverage[k] <- (confint(fit)[1] <= beta & confint(fit)[2] >= beta)
+    CI_length[k] <- confint(fit)[2] - confint(fit)[1]
   }else{
     fit <- survreg(Surv(time) ~ x, data = dat, dist = "weibull")
     betaHat[k] <- -fit$coefficients[-1] / fit$scale
+    coverage[k] <- (-confint(fit)[4] <= beta & -confint(fit)[2] >= beta)
+    CI_length[k] <- confint(fit)[4] - confint(fit)[2]
   }
   }
-   betaHat
+   list(betaHat,coverage,CI_length)
   }
-```
-
-
-```{r library}
-# #try
-# #Exponential
-# beta_exp_100 = sim("Weibull","Exponential",100)
-# hist(beta_exp_100)
-# mean(beta_exp_100)
-# ci(beta_exp_100,confidence = 0.95)
 ```
 
 
@@ -113,7 +108,8 @@ for(t in 1:3){
   n = size[t]
 for(i in 1:2){
   for(j in 1:3){
-  beta_hat[[k]]= sim(model_list[[i]],model_list[[j]],n)
+  sim_result = sim(model_list[[i]],model_list[[j]],n)
+  beta_hat[[k]] = sim_result[[1]]
   result[k,1] = model_list[[i]]
   result[k,2] = model_list[[j]]
   result[k,3] = ci(beta_hat[[k]])[[1]]
@@ -121,13 +117,14 @@ for(i in 1:2){
   result[k,5] = ci(beta_hat[[k]])[[3]]
   result[k,6] = ci(beta_hat[[k]])[[4]]
   result[k,7] = sum(beta_hat[[k]])/n+0.6
-  result[k,8] = n
+  result[k,8] = mean(sim_result[[2]])
+  result[k,9] = mean(sim_result[[3]])
+  result[k,10] = n
   k = k+1
   }
 }
 }
-
-names(result)=c("base_model","fit_model","beta_Estimate","CI_lower","CI_upper","Std_Error","Bias","Sample_size")
+names(result)=c("base_model","fit_model","beta_Estimate","CI_lower","CI_upper","Std_Error","Bias","coverage","average_confidence_interval_length","Sample_size")
 result$Mse = (result$beta_Estimate+0.6)^2+(result$Std_Error)^2
 result$Sample_size = as.numeric(result$Sample_size)
 result
@@ -141,32 +138,30 @@ filter(result,base_model == "Exponential") %>%
 ggplot(aes(x = Sample_size, y = as.numeric(Bias), color = fit_model))+
   geom_point()+
   geom_smooth()+
-  labs(title = "Exponential as basemodel")
+  labs(title = "Bias plot: Exponential as basemodel")
 
 filter(result,base_model == "Weibull") %>% 
 ggplot(aes(x = Sample_size, y = as.numeric(Bias), color = fit_model))+
   geom_point()+
   geom_smooth()+
- labs(title = "Weibull as basemodel")
+ labs(title = "Bias plot: Weibull as basemodel")
 
 ```
 
 
 ```{r}
 #MSE Plot
-
 filter(result,base_model == "Exponential") %>% 
 ggplot(aes(x = Sample_size, y = as.numeric(Mse), color = fit_model))+
   geom_point()+
   geom_smooth()+
-  labs(title = "Exponential as basemodel")
+  labs(title = "Mes Plot: Exponential as basemodel")
 
 filter(result,base_model == "Weibull") %>% 
 ggplot(aes(x = Sample_size, y = as.numeric(Mse), color = fit_model))+
   geom_point()+
   geom_smooth()+
- labs(title = "Weibull as basemodel")
-
+ labs(title = "Mse Plot :Weibull as basemodel")
 ```
 
 
