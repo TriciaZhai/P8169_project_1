@@ -117,14 +117,20 @@ for(i in 1:3){
   result[k,4] = ci(beta_hat[[k]])[[2]]
   result[k,5] = ci(beta_hat[[k]])[[3]]
   result[k,6] = ci(beta_hat[[k]])[[4]]
+  result[k,7] = sum(beta_hat[[k]])/100+0.6
   k = k+1
   }
 }
-names(result)=c("base_model","fit_model","beta_Estimate","CI lower","CI upper","Std. Error")
+names(result)=c("base_model","fit_model","beta_Estimate","CI_lower","CI_upper","Std_Error","Bias")
 result
 
 ```
 
+```{r plot_estimate}
+
+ggplot(result,aes(x = base_model,y = beta_Estimate,color = fit_model))+geom_point()+geom_errorbar(aes(ymin=CI_lower,ymax = CI_upper))
+
+```
 
 
 
