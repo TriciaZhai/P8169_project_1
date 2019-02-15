@@ -9,13 +9,12 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(coxed)
 library(survival)
 library(quantreg)
 library(glmnet)
 library(MASS)
 library(pROC)
-set.seed(8160201902)
+set.seed(81602019)
 ```
 
 from syllabus: 
@@ -80,6 +79,17 @@ baseline hazard function & fit model & estimator & power & bias \\[1mm]\hline
 \end{center}
 \label{default}
 \end{table}
+
+1.2 Investigate the impact of fitting too complicated a model when an exponential is sufficient
+
+1.3 brief into to different models(performance features, application, unsuitable cases):
+exponential proportional-hazards model:
+Weibull proportional:
+
+Cox proportional-hazards model: 
+Cox proportional hazards regression model can be thought of as an exponential regression 
+model under a “crazy” (common but unknown) clock, or  have a time-change covariates can be thought of as the piecewise exponential under a crazy clock (Zhou 2000 ).  The (partial likelihood) estimators are rank based, therefore do not depend on the clock. 
+
 
 **2. Statistical methods to be studied:**
 3 Proportional hazards models: An exponential proportional-hazards model,A Weibull proportional-hazards model, A Cox proportional-hazards model.
